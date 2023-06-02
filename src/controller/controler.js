@@ -1,10 +1,23 @@
 const service = require("../service/service");
 
+const isBodyValid = (data) => {
+    if (!data.categoria || !data.pergunta || !data.resposta || data.opcoes.length == 0) {
+        return false
+    } else {
+        return true
+    }
+}
+
 const create = async (req, res) => {
     const body = req.body;
     try {
-        await service.create(body);
-        res.status(201).send('Question created');
+        if (isBodyValid(body)) {
+            await service.create(body);
+            res.status(201).send('Question created');
+        } else {
+            res.status(400).send('Without one of variables');
+        }
+
     } catch (err) {
         res.status(500).send('Error while creating in:' + err);
     }
@@ -25,7 +38,7 @@ const getById = async (req, res) => {
     } catch (err) {
         res.status(500).send('Error in server in:' + err)
     }
-    
+
 };
 
 const update = async (req, res) => {
@@ -37,16 +50,16 @@ const update = async (req, res) => {
         } else {
             res.status(404).send('Invalid id to update')
         }
-    } catch(err) {
+    } catch (err) {
         res.status(500).send("Error while updating" + err)
     }
-    
+
 };
 
 const remove = async (req, res) => {
     const id = req.params.id;
 
-    
+
     try {
         if (id) {
             await service.remove(id);
@@ -54,7 +67,7 @@ const remove = async (req, res) => {
         } else {
             res.status(404).send('Invalid id to reove')
         }
-    } catch(err) {
+    } catch (err) {
         res.status(500).send("Error while removing quiz" + err)
     }
 };
