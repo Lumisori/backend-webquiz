@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const user = '';
-const password = '';
+const user = 'user';
+const password = 'password';
 
 
 const connectDB = () => {
