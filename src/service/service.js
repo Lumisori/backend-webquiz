@@ -13,6 +13,10 @@ const getById = (id) => {
   return Quiz.findById(id);
 }
 
+const getByCategory = (data) => {
+  return Quiz.find({ categoria: data });
+}
+
 const update = (id, data) => {
   return Quiz.findByIdAndUpdate(id, data, { new: true });
 }
@@ -25,6 +29,7 @@ module.exports = {
   create,
   getAll,
   getById,
+  getByCategory,
   update,
   remove
 }

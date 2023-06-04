@@ -41,6 +41,22 @@ const getById = async (req, res) => {
 
 };
 
+const getByCategory = async (req, res) => {
+    try {
+        const category = req.params.categoria;
+        if (!category) {
+            return res.status(400).send('Categoria não fornecida');
+        }
+        const data = await service.getByCategory(category);
+        if (data.length === 0) {
+            return res.status(404).send('Nenhum resultado encontrado para a categoria fornecida');
+        }
+        res.status(200).send(data);
+    } catch (err) {
+        res.status(500).send('Erro no servidor: ' + err);
+    }
+};
+
 const update = async (req, res) => {
     try {
         const id = req.params.id;
@@ -59,13 +75,12 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
     const id = req.params.id;
 
-
     try {
         if (id) {
             await service.remove(id);
             res.status(200).send("Quiz removed");
         } else {
-            res.status(404).send('Invalid id to reove')
+            res.status(404).send('Invalid id to remove')
         }
     } catch (err) {
         res.status(500).send("Error while removing quiz" + err)
@@ -76,6 +91,7 @@ module.exports = {
     create,
     getAll,
     getById,
+    getByCategory,
     update,
     remove
 };
