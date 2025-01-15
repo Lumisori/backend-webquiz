@@ -24,7 +24,11 @@ const create = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-    res.send(await service.getAll());
+  try{
+   res.send(await service.getAll());
+  } catch(err){
+    res.status(400).send('Empty data');
+  }
 };
 
 const getById = async (req, res) => {
